@@ -43,7 +43,7 @@ app.get('/', function (req, res) {
                 name_is = rows[0].name;
                 res.render('index', {
                     age: session_mode,
-                    name: rows[0].lastname,
+                    name: rows[0].name,
                     lastname: rows[0].lastname,
                     email: rows[0].email
 
