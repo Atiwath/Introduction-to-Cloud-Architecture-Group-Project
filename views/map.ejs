@@ -47,10 +47,14 @@
                         src="<%= vimages %>"
                         class="card-img-top" alt="...">
                       <div class="card-body ">
-                        <h5 class="card-title text-center">   จังหวัด : <%= province %>  </h5>
-                        <p class="card-text">  จุดท่องเที่ยว : <%= touristSpot %> ไฮซีซั่น : <%= highSeason %> เมนูแนะนํา : <%= signatureFood %>
-                          เบอร์ติดต่อ : <%= contactNumber %>
-                        </p>
+                        <h5 class="card-title text-center">   จังหวัด : <%= province %>  </h5> 
+                        <p class="card-text">  
+                          <ul class="list-group list-group-flush">
+                          <li class="list-group-item text-center">จุดท่องเที่ยว <%= touristSpot %> </li>
+                          <li class="list-group-item text-center">ไฮซีซั่น <%= highSeason %> </li>
+                          <li class="list-group-item text-center"> เมนูแนะนํา <%= signatureFood %></li>
+                          <li class="list-group-item text-center">  เบอร์ติดต่อ <%= contactNumber %></li> 
+                           </ul>
                       </div>
                       <div class="card-footer">
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
