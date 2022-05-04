@@ -1,4 +1,4 @@
-const port = '8080';
+const port = '80';
 const express = require('express');
 const path = require('path');
 const cookieSession = require('cookie-session');
@@ -36,8 +36,8 @@ app.get('/', function (req, res) {
     } else if (req.session.isLoggedIn) {
         //    console.log("LOG");
         session_mode = 10;
-       // dbConnection.execute("SELECT * FROM `userDetail` WHERE `id`=?", [req.session.userID])
-        dbConnection.execute("SELECT * FROM `touristAttractionDetail` WHERE `TID`= ?",[1])
+         dbConnection.execute("SELECT * FROM `userDetail` WHERE `id`=?", [req.session.userID])
+        //dbConnection.execute("SELECT * FROM `touristAttractionDetail` WHERE `TID`= ?",[1])
             .then(([rows]) => {
                 // console.log([rows]);
                 name_is = rows[0].name;
@@ -76,13 +76,22 @@ app.get('/logout', (req, res) => {
 
 app.get('/map', (req, res) => {
 
-    res.render('map',{age: 0, 
-        region: '' ,
-        province: '' ,
-        contactNumber: ''
+    dbConnection.execute("SELECT * FROM `touristAttractionDetail` WHERE `TID`= ?",[1]).then(([rows]) => {
+        // console.log([rows]);
+         console.log(rows[0].region);
+         res.render('map', {
+             name: name_is,
+             age: session_mode,
+             region: rows[0].region,
+             province: rows[0].province,
+             contactNumber: rows[0].contactNumber,
+             touristSpot: rows[0].touristSpot,
+             highSeason:rows[0].highSeason,
+             signatureFood:rows[0].signatureFood,
+             vimages:rows[0].vimages
 
-    
-    });
+         });
+     });
 
 });
 
@@ -205,12 +214,8 @@ app.post('/register',
             });
         }
     });// END OF REGISTER PAGE
-
-
     app.post('/map', (req, res,next) => {
-
-        console.log("map");
-        session_mode = 1;
+        console.log("map"); 
         const validation_result = validationResult(req);
         const { check=0 } = req.body;
         console.log("CHECK : %s",check);
@@ -219,12 +224,16 @@ app.post('/register',
            // console.log([rows]);
             console.log(rows[0].region);
             res.render('map', {
+                name: name_is,
                 age: session_mode,
                 region: rows[0].region,
                 province: rows[0].province,
-                contactNumber: rows[0].contactNumber
-
-                
+                contactNumber: rows[0].contactNumber,
+                touristSpot: rows[0].touristSpot,
+                highSeason:rows[0].highSeason,
+                signatureFood:rows[0].signatureFood,
+                vimages:rows[0].vimages
+  
             });
         });
         }
