@@ -1,0 +1,22 @@
+wget https://storage.googleapis.com/cloudsql-proxy/v1.30.0/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
+
+chmod +x cloud_sql_proxy
+
+gcloud sql instances describe cloud-group-4
+
+./cloud_sql_proxy -instances=japan-go-explore-348416:asia-southeast1:cloud-group-4=tcp:3306
+
+./cloud_sql_proxy -credential_file=japan-go-explore-348416-d7ae5f95520c.json \
+                  -instances=japan-go-explore-348416:asia-southeast1:cloud-group-4=tcp:3306
+  
+
+
+docker pull gcr.io/cloudsql-docker/gce-proxy:1.30.0
+
+gcloud sql instances describe cloud-group-4
+
+docker run -d \\
+  -v japan-go-explore-348416-d7ae5f95520c.json:/config \\
+  -p 127.0.0.1:3306:3306 \\
+  gcr.io/cloudsql-docker/gce-proxy:1.30.0 /cloud_sql_proxy \\
+  -instances=japan-go-explore-348416:asia-southeast1:cloud-group-4=tcp:0.0.0.0:3306 -credential_file=/config
